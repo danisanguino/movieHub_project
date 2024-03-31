@@ -4,7 +4,9 @@ import prisma from "../db/client";
 //Acciones y funcionalidad
 export const getAllMovies = async (req: Request, res: Response) => {
     try {
-        const findMovie = await prisma.movies.findMany();
+        const findMovie = await prisma.movies.findMany({
+            include: {genres: true}
+        });
         res.status(201).send(findMovie)
     } catch (error) {
         res.status(404).send("Error to get movies")
@@ -43,7 +45,6 @@ export const updateMovie = async (req: Request, res: Response) => {
     }
 }
 
-//No borra
 export const deleteMovie = async (req: Request, res: Response) => {
     const { movieId } = req.params
     try { 

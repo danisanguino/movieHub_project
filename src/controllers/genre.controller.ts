@@ -3,9 +3,7 @@ import prisma from "../db/client";
 
 export const getAllGenre = async (req: Request, res: Response) => {
     try {
-        const gettingGenres = await prisma.genre.findMany({
-            include: {genres: true}
-        });
+        const gettingGenres = await prisma.genre.findMany();
         res.status(201).send(gettingGenres);
     } catch (error) {
         res.status(404).send("Error to get genres")
@@ -13,11 +11,11 @@ export const getAllGenre = async (req: Request, res: Response) => {
 }
 
 export const createGenre = async(req: Request, res: Response) => {
-        const {name} = req.body
+        const {title} = req.body
         const { movieId} = req.params
     try {
         const newGenre = await prisma.genre.create({
-            data:{name, movies: { connect: {id:movieId}}}
+            data:{title, movies: { connect: {id:movieId}}}
         });
     } catch (error) {
         
