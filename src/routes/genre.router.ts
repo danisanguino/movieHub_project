@@ -6,7 +6,7 @@ const genreRouter = Router();
 
 //funciones get y tal
 genreRouter.get("/", getAllGenre);
-genreRouter.post("/", createGenre);
+genreRouter.post("/:movieId", createGenre);
 genreRouter.patch("/", updateGenre);
 genreRouter.delete("/", deleteGenre);
 

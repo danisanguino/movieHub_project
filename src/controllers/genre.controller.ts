@@ -11,14 +11,15 @@ export const getAllGenre = async (req: Request, res: Response) => {
 }
 
 export const createGenre = async(req: Request, res: Response) => {
-        const {title} = req.body
-        const { movieId} = req.params
+        const { title } = req.body
+        const { movieId } = req.params
     try {
         const newGenre = await prisma.genre.create({
             data:{title, movies: { connect: {id:movieId}}}
         });
+        res.status(201).send(`Genre ${title} has been added to movie`)
     } catch (error) {
-        
+        res.status(404).send("Error to add genre")
     }
 }
 
