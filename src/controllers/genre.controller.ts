@@ -2,6 +2,11 @@ import { Request, Response } from "express";
 import prisma from "../db/client";
 
 export const getAllGenre = (req: Request, res: Response) => {
+    try {
+        
+    } catch (error) {
+        res.status(404).send("Error to get genres")
+    }
     res.send("te traigo los generos bro")
 }
 
