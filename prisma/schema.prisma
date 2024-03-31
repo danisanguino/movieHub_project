@@ -13,7 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//Creacion modelos, todos en el mismo archivo
 model User {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   name     String
@@ -28,8 +27,19 @@ model Movies {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   title    String
   image    String
+  score    Int
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   userId   String   @db.ObjectId
-  user     User     @relation(fields: [userId], references: [id])
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  genres   Genre[]
+}
+
+model Genre {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  title    String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  movieId  String   @db.ObjectId
+  movies   Movies   @relation(fields: [movieId], references: [id], onDelete: Cascade)
 }
