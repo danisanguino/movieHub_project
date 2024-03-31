@@ -36,3 +36,8 @@ vincular base de datos de atlas al proyecto
 30 marzo
 all functions of users working
 relacionar users y movies en el mismo schema
+
+31 marzo
+all funcions of movies
+schema of genres
+workings functions of genres
