@@ -38,7 +38,6 @@ export const updateMovie = async (req: Request, res: Response) => {
             where: { id: movieId },  
             data: { title, image, score }
         })
-
         res.status(201).send(`Movie ${title} has been updated`)
     } catch (error) {
         res.status(404).send("Error to update movie")
