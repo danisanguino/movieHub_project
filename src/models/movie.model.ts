@@ -24,14 +24,16 @@ const movieSchema = new Schema<IMovieSchema> ({
         type: String,
         require: true
     },
-    genre: {
-        type: String,
-        require: true
-    }
-}, {timestamps: true});
+    //Relaciones genre con la pelicula
+    genre: [{
+        // type: String
+        type: Schema.Types.ObjectId, ref:"genre"
+    }]
+    }, {timestamps: true});
+
 
 //Modelo con PascalCase
-const MovieModel = model<IMovieSchema>("peliculasData", movieSchema);
+const MovieModel = model<IMovieSchema>("movies", movieSchema);
 
 export default MovieModel;
 
