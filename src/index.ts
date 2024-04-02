@@ -1,6 +1,5 @@
 import expressApp from "./server";
 import config from "./config/config";
-import prisma from "./db/client";
 import connect from "./db/db"
 
 

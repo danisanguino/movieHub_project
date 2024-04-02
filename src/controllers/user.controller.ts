@@ -1,57 +1,57 @@
 import {Request, Response} from "express";
-import prisma from "../db/client";
+import UserModel from "../models/user.model";
 
 //Acciones y funcionalidad
 
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUser = async (req:Request, res:Response) => {
     try {
-        const findUsers = await prisma.user.findMany({
-            include: {movies: true}
-        });
-        res.status(201).send(findUsers)
+        const allUsers = await UserModel.find().populate("movies");
+        res.status(200).send(allUsers);
     } catch (error) {
-        res.status(404).send("error to get users")
+        res.status(400).send(error);
     }
 }
 
-export const createUser = async (req: Request, res: Response) => {
-    const { name, email, password } = req.body;
-
+export const createUser = async (req:Request, res:Response) => {
+    const { name, email, password } = req.body
+    
     try {
-        const newUser = await prisma.user.create({
-            data: { name: name, email: email, password: password }
-        });
-        res.status(201).send(`${name} has been created`)
+        const newUser = await UserModel.create({ name:name, email:email, password:password });
+        //Siempre devolver algo, en este caso un estado
+        res.status(201).send(newUser + "ha sido creado correctamente")
         
     } catch (error) {
-        res.status(400).send("Usuario no creado, esto no va...")
+        res.status(401).send(error)
     }
 }
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req:Request, res:Response) => {
     const { name, email, password } = req.body;
-    const { userId } = req.params
+    const {userId} = req.params;
 
     try {
-        const updating = await prisma.user.update({
-            where: { id: userId },  
-            data: { name, email, password }
-        })
-
-        res.status(201).send(`User ${name} has been updated`)
+        //Cambiar usuario necesita 3 objetos, encontrar, que quieres cambiar, permitir traer objeto nuevo ya cambiado
+        const userUpdate = await UserModel.findByIdAndUpdate(
+            {_id: userId},
+            {name:name, email:email, password:password},
+            {new: true});
+        res.status(201).send(userUpdate + "se ha modificado correctamente bro")
     } catch (error) {
-        res.status(404).send("Error to update user")
+        
     }
 }
 
-export const deleteUser = async(req: Request, res: Response) => {
-    const { userId } = req.params
+
+export const deleteUser = async (req:Request, res:Response) => {
+    const {userId} = req.params;
+
     try {
-        const deleting = await prisma.user.delete({
-            where: {id: userId}
-        })
-        res.status(200).send("User has been deleted")
+        const userDelete = await UserModel.findByIdAndDelete({_id: userId});
+        res.status(200).send(userDelete + "borrado correctamente");
+
     } catch (error) {
-        res.status(404).send("Error to delete user")
+        
     }
+
+    res.send(`User with id "${userId} has been deleted`)
 }
