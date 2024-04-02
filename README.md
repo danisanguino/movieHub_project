@@ -44,3 +44,9 @@ relacionar users y movies en el mismo schema
 all funcions of movies
 schema of genres
 workings functions of genres
+
+1 abril
+prisma branch ok
+
+2 abril
+mongoose branch migration ok
