@@ -49,4 +49,7 @@ workings functions of genres
 prisma branch ok
 
 2 abril
-mongoose branch migration ok
+mongoose branch migration ok except genre fuctions
+
+3 abril
+genre fuctions star with postgree
