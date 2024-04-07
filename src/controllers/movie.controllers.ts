@@ -15,7 +15,7 @@ export const getAllMovies = async (req: Request, res: Response) => {
 
 export const createMovie = async (req: Request, res: Response) => {
     const { title, image, score } = req.body;
-    const { userId } = req.params;
+    const userId = parseInt(req.params.userId)
 
     try {
         const newMovie = await prisma.movies.create({
@@ -31,7 +31,7 @@ export const createMovie = async (req: Request, res: Response) => {
 
 export const updateMovie = async (req: Request, res: Response) => {
     const { title, image, score } = req.body;
-    const { movieId } = req.params
+    const movieId = parseInt(req.params.movieId)
 
     try {
         const updating = await prisma.movies.update({
@@ -45,7 +45,7 @@ export const updateMovie = async (req: Request, res: Response) => {
 }
 
 export const deleteMovie = async (req: Request, res: Response) => {
-    const { movieId } = req.params
+    const movieId = parseInt(req.params.movieId)
     try { 
         const movieDelete = await prisma.movies.delete({
             where: { id: movieId } 

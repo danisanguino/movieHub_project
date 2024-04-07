@@ -3,6 +3,9 @@ Back end project from movie hub
 
 typscript, node, mongodb, express, prisma
 
+#Be careful with change of node and delete .env 
+#if problems with import of Prisma, change node version, install all prisma includes @cliente y execute npx prisma gerenate
+
 Dependences installed:
 "dependencies": {
     "express": "^4.19.2",
