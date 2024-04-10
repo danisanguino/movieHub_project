@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import prisma from "../db/client";
 
-//Acciones y funcionalidad
+
 export const getAllMovies = async (req: Request, res: Response) => {
     try {
         const findMovie = await prisma.movies.findMany({

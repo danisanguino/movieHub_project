@@ -1,7 +1,6 @@
 import {Request, Response} from "express";
 import prisma from "../db/client";
 
-//Acciones y funcionalidad
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
@@ -24,7 +23,7 @@ export const createUser = async (req: Request, res: Response) => {
         res.status(201).send(`${name} has been created`)
         
     } catch (error) {
-        res.status(400).send("Usuario no creado, esto no va...")
+        res.status(400).send("Error to create user")
     }
 }
 
