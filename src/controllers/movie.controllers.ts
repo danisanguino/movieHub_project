@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import prisma from "../db/client";
 
+//Functions to endpoints
 //Actions order => 1ºget 2ºpost 3ºpatch 4ºdelete
 
 export const getAllMovies = async (req: Request, res: Response) => {
@@ -19,17 +20,17 @@ export const createMovie = async (req: Request, res: Response) => {
     const userId = parseInt(req.params.userId)
 
     if (!title || !image ) {
-        return res.status(400).send("Titulo e imagen are required");
+        return res.status(400).send("Title and image are required");
     }
 
     if (!userId) {
-        return res.status(400).send("El campo userId is required");
+        return res.status(400).send("UserId is required");
     }
 
     try {
-        //Crear transanción porque hay varias funciones
-        //Crear pelicula
-        //crear generos de la peli
+        //Create transantion for many to many porque hay varias funciones
+        //Create movie
+        //Create id of genre 
         const newMovie = await prisma.$transaction(async (prisma) => {
             const movie = await prisma.movies.create({
                 data: {title, image, score, userId}
@@ -43,7 +44,7 @@ export const createMovie = async (req: Request, res: Response) => {
             }));
 
         await prisma.movieGenre.createMany({
-            //Se la pasa la funcion crear genero
+            //Crete genre to be data from line 40
             data: createGenre
         });
         }
@@ -59,7 +60,7 @@ export const createMovie = async (req: Request, res: Response) => {
 
         
     } catch (error) {
-        res.status(400).send("Movie no creada, esto no va...")
+        res.status(400).send("Error to create movie")
     }
 }
 
@@ -76,7 +77,6 @@ export const updateMovie = async (req: Request, res: Response) => {
             });
 
         if(genres && genres.length) {
-            //Be Careful here
             const createGenre = genres.map((genre: number) => ({
                 movieId: movieId,
                 genreId: genre
@@ -87,7 +87,6 @@ export const updateMovie = async (req: Request, res: Response) => {
         });
 
         await prisma.movieGenre.createMany({
-            //Se la pasa la funcion crear genero
             data: createGenre
         });
         }
@@ -99,7 +98,7 @@ export const updateMovie = async (req: Request, res: Response) => {
 
         });
 
-        res.status(201).send(updatingMovie);
+        res.status(201).send(`${updatingMovie?.title} updated correctly`);
     } catch (error) {
         res.status(404).send("Error to update movie")
     }
@@ -115,7 +114,7 @@ export const deleteMovie = async (req: Request, res: Response) => {
         res.status(201).send("Movie deleted correctly")
         
     } catch (error) {
-        res.status(404).send("Fatal error to delete this movie")
+        res.status(404).send("Error to delete this movie")
         
     }
 }

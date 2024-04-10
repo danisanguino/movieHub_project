@@ -1,7 +1,8 @@
 import {Request, Response} from "express";
 import prisma from "../db/client";
 
-//Acciones y funcionalidad
+//Functions to endpoints
+//Actions order => 1ºget 2ºpost 3ºpatch 4ºdelete
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
@@ -10,7 +11,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
         });
         res.status(201).send(findUsers)
     } catch (error) {
-        res.status(404).send("error to get users")
+        res.status(404).send("Error to get users")
     }
 }
 
@@ -24,7 +25,7 @@ export const createUser = async (req: Request, res: Response) => {
         res.status(201).send(`${name} has been created`)
         
     } catch (error) {
-        res.status(400).send("Usuario no creado, esto no va...")
+        res.status(400).send("Error to create user")
     }
 }
 

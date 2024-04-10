@@ -4,6 +4,7 @@ import { createMovie, deleteMovie, getAllMovies, updateMovie } from "../controll
 
 const movieRouter = Router();
 
+//Endpoints
 movieRouter.get("/", getAllMovies);
 movieRouter.post("/:userId", createMovie );
 movieRouter.patch("/:movieId", updateMovie)
