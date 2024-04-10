@@ -1,7 +1,6 @@
 import {Request, Response} from "express";
 import UserModel from "../models/user.model";
 
-//Acciones y funcionalidad
 
 export const getAllUser = async (req:Request, res:Response) => {
     try {
@@ -17,11 +16,11 @@ export const createUser = async (req:Request, res:Response) => {
     
     try {
         const newUser = await UserModel.create({ name:name, email:email, password:password });
-        //Siempre devolver algo, en este caso un estado
-        res.status(201).send(newUser + "ha sido creado correctamente")
+
+        res.status(201).send(`${newUser} has been create correctly`)
         
     } catch (error) {
-        res.status(401).send(error)
+        res.status(401).send("User cannot be created" + error)
     }
 }
 
@@ -30,14 +29,13 @@ export const updateUser = async (req:Request, res:Response) => {
     const {userId} = req.params;
 
     try {
-        //Cambiar usuario necesita 3 objetos, encontrar, que quieres cambiar, permitir traer objeto nuevo ya cambiado
         const userUpdate = await UserModel.findByIdAndUpdate(
             {_id: userId},
             {name:name, email:email, password:password},
             {new: true});
-        res.status(201).send(userUpdate + "se ha modificado correctamente bro")
+        res.status(201).send(`${userUpdate?.name} has been updated`)
     } catch (error) {
-        
+        res.status(401).send("Error to update user")
     }
 }
 
@@ -50,8 +48,8 @@ export const deleteUser = async (req:Request, res:Response) => {
         res.status(200).send(userDelete + "borrado correctamente");
 
     } catch (error) {
+        res.status(401).send("Error to delete user")
         
     }
 
-    res.send(`User with id "${userId} has been deleted`)
 }

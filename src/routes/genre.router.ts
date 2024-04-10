@@ -4,7 +4,6 @@ import { createGenre, deleteGenre, getAllGenre, updateGenre } from "../controlle
 
 const genreRouter = Router();
 
-//funciones get y tal
 genreRouter.get("/", getAllGenre);
 genreRouter.post("/:movieId", createGenre);
 genreRouter.patch("/:genreId", updateGenre);

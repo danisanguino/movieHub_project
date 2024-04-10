@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import MovieModel from "../models/movie.model";
 
-//Acciones y funcionalidad
+
 export const getAllMovies = async (req: Request, res: Response) => {
     try {
         const findMovie = await MovieModel.find().populate("genres");
@@ -33,7 +33,6 @@ export const updateMovie = async (req:Request, res:Response) => {
     const { movieId } = req.params
 
     try {
-        //Update movie necesita 3 objetos, encontrar, que quieres cambiar, permitir traer objeto nuevo ya cambiado
         const movieUpdate = await MovieModel.findByIdAndUpdate(
             {_id: movieId},
             {title, poster_image, score},
