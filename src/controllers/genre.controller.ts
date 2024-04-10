@@ -30,7 +30,6 @@ export const updateGenre = async (req:Request, res:Response) => {
     const { genreId } = req.params
 
     try {
-        //Update movie necesita 3 objetos, encontrar, que quieres cambiar, permitir traer objeto nuevo ya cambiado
         const genreUpdate = await GenreModel.findByIdAndUpdate(
             {_id: genreId},
             {title},

@@ -45,7 +45,7 @@ export const deleteUser = async (req:Request, res:Response) => {
 
     try {
         const userDelete = await UserModel.findByIdAndDelete({_id: userId});
-        res.status(200).send(userDelete + "borrado correctamente");
+        res.status(200).send("User deleted correctly");
 
     } catch (error) {
         res.status(401).send("Error to delete user")
