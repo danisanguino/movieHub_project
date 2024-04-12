@@ -1,6 +1,6 @@
 🎬 Movie Hub Backend Project
 
-(https://res.cloudinary.com/dqm1upnhh/image/upload/v1712917488/backend-movieHub-project_adpyef.jpg)
+<img src="https://res.cloudinary.com/dqm1upnhh/image/upload/v1712917488/backend-movieHub-project_adpyef.jpg" />
 
 This is a TypeScript-based backend project built with Node.js, Express.js, Mongoose, and Prisma. The database is powered by MongoDB and PostgreSQL.
 
