@@ -1,55 +1,64 @@
-# movieHub_project
-Back end project from movie hub
+🎬 Movie Hub Backend Project
 
-typscript, node, mongodb, express, prisma
 
-#Be careful with change of node and delete .env 
-#if problems with import of Prisma, change node version, install all prisma includes @cliente y execute npx prisma gerenate
 
-Dependences installed:
-"dependencies": {
-    "express": "^4.19.2",
-    "typescript": "^5.4.3"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/node": "^20.11.30",
-    "dotenv": "^16.4.5",
-    "nodemon": "^3.1.0",
-    "prisma": "^5.11.0",
-    "ts-node": "^10.9.2"
-  }
+This is a TypeScript-based backend project built with Node.js, Express.js, Mongoose, and Prisma. The database is powered by MongoDB and PostgreSQL.
 
-26 march 
-Star project
-Git hub
-Install depencedes
-Mongo compass in mongo atlas
-Arquitectura 
-Run server
+ℹ️ Notes:
 
-27 march
-simple methods CRUD on functions
-crear modelos 
-complete create method add user
+Be cautious when changing Node.js versions and remember to delete the .env file if necessary.
+If encountering issues with Prisma imports, consider changing the Node.js version, installing all Prisma dependencies (@client), and running npx prisma generate.
+📅 Development Timeline:
 
-28 march
-vincular base de datos de atlas al proyecto
+March 26:
+Started the project.
+Set up GitHub repository.
+Installed dependencies.
+Connected to MongoDB using MongoDB Atlas.
+Defined project architecture.
+Ran the server.
 
-30 marzo
-all functions of users working
-relacionar users y movies en el mismo schema
+March 27:
+Implemented simple CRUD methods as functions.
+Created models.
+Completed the creation method by adding users.
 
-31 marzo
-all funcions of movies
-schema of genres
-workings functions of genres
+March 28:
+Linked the MongoDB Atlas database to the project.
+March 30:
 
-1 abril
-prisma branch ok
+Ensured all user-related functions were operational.
+Established a relationship between users and movies within the same schema.
 
-2 abril
-mongoose branch migration ok except genre fuctions
+March 31:
+Completed all movie-related functions.
+Defined a schema for genres.
+Ensured genre-related functions were operational.
 
-3 abril
-genre fuctions star with postgree
+April 1:
+Confirmed the Prisma branch was working correctly.
+
+April 2:
+Successfully migrated the Mongoose branch, except for genre functions.
+
+April 3:
+Started working on genre functions with PostgreSQL.
+
+April 5:
+Migrated to PostgreSQL.
+Ensured user and movie functions were operational.
+
+April 6:
+Continued working on genre functions.
+
+April 8:
+Implemented patch functionality for genres and established a many-to-many relationship with movies.
+
+April 9:
+Conducted code cleanup and review for all three branches.
+
+April 10:
+Created the frontend.
+Conducted testing to ensure all components are functional.
+
+🚀 Project Completion
