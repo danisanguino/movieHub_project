@@ -3,6 +3,7 @@ import { createUser, deleteUser, getAllUsers, updateUser } from "../controllers/
 
 const userRouter = Router();
 
+//Endpoints
 userRouter.get("/", getAllUsers);
 userRouter.post("/", createUser);
 userRouter.patch("/:userId", updateUser)
