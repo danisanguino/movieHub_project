@@ -11,7 +11,7 @@ expressApp.listen(PORT, async () =>{
         await prisma.$connect();
         console.log(`Server is running on port ${PORT} and is connected to db MovieHub from local PostgreSQL`)
     } catch (error) {
-        console.log("error to connect, try again")
+        console.log("Error to connect, try again", error)
     }
 } )
 
