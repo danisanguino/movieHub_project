@@ -28,6 +28,7 @@ model Movies {
   title    String @db.VarChar(250)
   image    String @db.VarChar(250)
   score    Int 
+  sinopsis String @db.VarChar(250)
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   userId   Int
