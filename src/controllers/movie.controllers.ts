@@ -16,7 +16,7 @@ export const getAllMovies = async (req: Request, res: Response) => {
 }
 
 export const createMovie = async (req: Request, res: Response) => {
-    const { title, image, score, genres } = req.body;
+    const { title, image, score, genres, sinopsis } = req.body;
     const userId = parseInt(req.params.userId)
 
     if (!title || !image ) {
@@ -33,7 +33,7 @@ export const createMovie = async (req: Request, res: Response) => {
         //Create id of genre 
         const newMovie = await prisma.$transaction(async (prisma) => {
             const movie = await prisma.movies.create({
-                data: {title, image, score, userId}
+                data: {title, image, score, sinopsis, userId}
             });
 
         if(genres && genres.length) {
@@ -66,14 +66,14 @@ export const createMovie = async (req: Request, res: Response) => {
 
 
 export const updateMovie = async (req: Request, res: Response) => {
-    const { title, image, score, genres } = req.body;
+    const { title, image, score, genres, sinopsis } = req.body;
     const movieId = parseInt(req.params.movieId)
 
     try {
         const updatingMovie = await prisma.$transaction(async (prisma) => {
             const movie = await prisma.movies.update({
                 where: {id: movieId},
-                data: {title, image, score}
+                data: {title, image, score, sinopsis}
             });
 
         if(genres && genres.length) {
