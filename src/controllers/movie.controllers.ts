@@ -15,6 +15,22 @@ export const getAllMovies = async (req: Request, res: Response) => {
     }
 }
 
+export const getOneMovie = async (req: Request, res: Response) => {
+    
+    const movieId = parseInt(req.params.movieId)
+    
+    try {
+        const findMovie = await prisma.movies.findUnique({
+            where:{id: movieId}, 
+            include: {genres: true}
+        });
+        res.status(201).send(findMovie)
+    } catch (error) {
+        res.status(404).send("Error to get the movie")
+    }
+}
+
+
 export const createMovie = async (req: Request, res: Response) => {
     const { title, image, score, genres, sinopsis } = req.body;
     const userId = parseInt(req.params.userId)
