@@ -1,5 +1,7 @@
 import {Request, Response} from "express";
 import prisma from "../db/client";
+import { uploadImage } from "../utils/cloudinaryConfig";
+import fs from "fs-extra";
 
 //Functions to endpoints
 //Actions order => 1ºget 2ºpost 3ºpatch 4ºdelete
@@ -17,13 +19,15 @@ export const getAllMovies = async (req: Request, res: Response) => {
 
 export const getOneMovie = async (req: Request, res: Response) => {
     
-    const movieId = parseInt(req.params.movieId)
+    const movieId = parseInt(req.params.movieId);
     
     try {
         const findMovie = await prisma.movies.findUnique({
             where:{id: movieId}, 
             include: {genres: true}
         });
+
+
         res.status(201).send(findMovie)
     } catch (error) {
         res.status(404).send("Error to get the movie")
@@ -32,7 +36,11 @@ export const getOneMovie = async (req: Request, res: Response) => {
 
 
 export const createMovie = async (req: Request, res: Response) => {
-    const { title, image, score, genres, sinopsis } = req.body;
+    const { title, score, genres, sinopsis } = req.body;
+    const image = req.files?.image;
+    //CONSOLE LOG ABAJO
+    console.log(image);
+    console.log(req.files);
     const userId = parseInt(req.params.userId)
 
     if (!title || !image ) {
@@ -47,36 +55,51 @@ export const createMovie = async (req: Request, res: Response) => {
         //Create transantion for many to many porque hay varias funciones
         //Create movie
         //Create id of genre 
-        const newMovie = await prisma.$transaction(async (prisma) => {
-            const movie = await prisma.movies.create({
-                data: {title, image, score, sinopsis, userId}
+        if (Array.isArray(image)){
+            return res.status(404).send({msg: "Only 1 image please"});
+        } else {
+            const resultImage = await uploadImage(image.tempFilePath);
+            const newMovie = await prisma.$transaction(async (prisma) => {
+                const movie = await prisma.movies.create({
+                    data: {
+                        title,
+                        image: resultImage.secure_url,
+                        image_publicId: resultImage.public_id,
+                        score: parseInt(score),
+                        sinopsis,
+                        userId
+                    }
+                });
+                await fs.unlink(image.tempFilePath);
+    
+            if(genres && genres.length) {
+                //Be Careful here
+                const createGenre = genres.map((genreId: number) => ({
+                    movieId: movie.id,
+                    genreId: genreId
+                }));
+    
+            await prisma.movieGenre.createMany({
+                //Crete genre to be data from line 40
+                data: createGenre
             });
-
-        if(genres && genres.length) {
-            //Be Careful here
-            const createGenre = genres.map((genreId: number) => ({
-                movieId: movie.id,
-                genreId: genreId
-            }));
-
-        await prisma.movieGenre.createMany({
-            //Crete genre to be data from line 40
-            data: createGenre
-        });
+            }
+    
+            return prisma.movies.findUnique({
+                where: { id: movie.id },
+                include: { genres: true }
+            });
+    
+            });
+    
+            res.status(201).send(`${title} has been created`);
         }
-
-        return prisma.movies.findUnique({
-            where: { id: movie.id },
-            include: { genres: true }
-        });
-
-        });
-
-        res.status(201).send(`${title} has been created`);
+        
 
         
     } catch (error) {
         res.status(400).send("Error to create movie")
+        console.log(error);
     }
 }
 

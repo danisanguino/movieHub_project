@@ -6,7 +6,8 @@ type TsConfig = {
 
 type EnviromentConfig = {
     app: AppConfig,
-    db: DbConfig
+    db: DbConfig,
+    cloudinary: CloudinaryConfig
 }
 
 type AppConfig = {
@@ -15,6 +16,12 @@ type AppConfig = {
 
 type DbConfig = {
     URI: string
+}
+
+type CloudinaryConfig = {
+    CLOUD_NAME: string,
+    API_KEY: string,
+    API_SECRET: string
 }
 
 if(process.env.NODE_ENV === "production"){
@@ -33,7 +40,12 @@ const CONFIG: TsConfig = {
         },
         db: {
             URI: process.env.MONGODB_URI || "mongodb://localhost:27017"
-        }
+        },
+        cloudinary: {
+            CLOUD_NAME: process.env.CLOUD_NAME || "Error",
+            API_KEY: process.env.API_KEY || "Error",
+            API_SECRET: process.env.API_SECRET || "Error"
+        },
     },
     production: {
         app: {
@@ -41,7 +53,12 @@ const CONFIG: TsConfig = {
         },
         db: {
             URI: process.env.MONGODB_URI || "mongodb://localhost:27017"
-        }
+        },
+        cloudinary: {
+            CLOUD_NAME: process.env.CLOUD_NAME || "Error",
+            API_KEY: process.env.API_KEY || "Error",
+            API_SECRET: process.env.API_SECRET || "Error"
+        },
     }
 }  
 
