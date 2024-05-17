@@ -74,9 +74,9 @@ export const createMovie = async (req: Request, res: Response) => {
     
             if(genres && genres.length) {
                 //Be Careful here
-                const createGenre = genres.map((genreId: number) => ({
+                const createGenre = genres.map((genre: string) => ({
                     movieId: movie.id,
-                    genreId: genreId
+                    genreId: parseInt(genre)
                 }));
     
             await prisma.movieGenre.createMany({
@@ -105,20 +105,33 @@ export const createMovie = async (req: Request, res: Response) => {
 
 
 export const updateMovie = async (req: Request, res: Response) => {
-    const { title, image, score, genres, sinopsis } = req.body;
+    const { title, score, genres, sinopsis } = req.body;
+    const image = req.files?.image;
     const movieId = parseInt(req.params.movieId)
 
     try {
+        if (image) {
+            if (Array.isArray(image)) {
+               return res.status(404).send("Error del try del segundo if del update")
+            } else {
+                const resultImage = await uploadImage(image.tempFilePath);
+                console.log(resultImage)
+                const movie = await prisma.movies.update({
+                    where: { id: movieId },
+                    data: { image_publicId: resultImage.imageid, image: resultImage.secure_url }
+                });
+            } 
+        }
         const updatingMovie = await prisma.$transaction(async (prisma) => {
             const movie = await prisma.movies.update({
                 where: {id: movieId},
-                data: {title, image, score, sinopsis}
+                data: {title, score: parseInt(score), sinopsis}
             });
 
         if(genres && genres.length) {
-            const createGenre = genres.map((genre: number) => ({
+            const createGenre = genres.map((genre: string) => ({
                 movieId: movieId,
-                genreId: genre
+                genreId: parseInt(genre)
             }));
 
         await prisma.movieGenre.deleteMany({
