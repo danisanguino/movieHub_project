@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import prisma from "../db/client";
-import { uploadImage } from "../utils/cloudinaryConfig";
+import { uploadImage, deleteImage } from "../utils/cloudinaryConfig";
 import fs from "fs-extra";
 
 //Functions to endpoints
@@ -35,12 +35,40 @@ export const getOneMovie = async (req: Request, res: Response) => {
 }
 
 
+//<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>
+
+export const createThreeInputsMovie = async (req: Request, res: Response) =>{
+
+    const { title, image, score} = req.body;
+    const userId = parseInt(req.params.userId)
+
+    try {
+        const uploadingMovie = await prisma.movies.create({
+            data: {
+                title,
+                image,
+                score,
+                userId
+            }
+        
+        });
+        res.status(200).send(`${title} has been created`);
+        
+    } catch (error) {
+        res.status(400).send( "Error to create this fucking movie");
+    }
+
+}
+
+//<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>
+
 export const createMovie = async (req: Request, res: Response) => {
     const { title, score, genres, sinopsis } = req.body;
     const image = req.files?.image;
     //CONSOLE LOG ABAJO
     console.log(image);
     console.log(req.files);
+
     const userId = parseInt(req.params.userId)
 
     if (!title || !image ) {
@@ -114,6 +142,14 @@ export const updateMovie = async (req: Request, res: Response) => {
             if (Array.isArray(image)) {
                return res.status(404).send("Error del try del segundo if del update")
             } else {
+                const currentMovie = await prisma.movies.findUnique({
+                    where: {id: movieId}
+                });
+
+                if(currentMovie && currentMovie.image_publicId) {
+                    await deleteImage(currentMovie.image_publicId);
+                }
+
                 const resultImage = await uploadImage(image.tempFilePath);
                 console.log(resultImage)
                 const movie = await prisma.movies.update({
@@ -159,10 +195,22 @@ export const updateMovie = async (req: Request, res: Response) => {
 export const deleteMovie = async (req: Request, res: Response) => {
     const movieId = parseInt(req.params.movieId)
     try { 
+        const movie = await prisma.movies.findUnique(
+            {
+                where: { id: movieId }
+            }
+        )
+
+
         const movieDelete = await prisma.movies.delete({
             where: { id: movieId },
-            include: { genres: true }
+            // include: { genres: true }
         })
+
+        if(movie?.image){
+            await deleteImage(movie.image_publicId);
+        }
+
         res.status(201).send("Movie deleted correctly")
         
     } catch (error) {

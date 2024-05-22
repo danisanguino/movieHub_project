@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createMovie, deleteMovie, getAllMovies, getOneMovie, updateMovie } from "../controllers/movie.controllers";
+import { createMovie, deleteMovie, getAllMovies, getOneMovie, updateMovie, createThreeInputsMovie } from "../controllers/movie.controllers";
 
 
 const movieRouter = Router();
@@ -7,7 +7,8 @@ const movieRouter = Router();
 //Endpoints
 movieRouter.get("/", getAllMovies);
 movieRouter.get("/:movieId", getOneMovie);
-movieRouter.post("/:userId", createMovie );
+movieRouter.post("/:userId", createThreeInputsMovie)
+// movieRouter.post("/:userId", createMovie );
 movieRouter.patch("/:movieId", updateMovie)
 movieRouter.delete("/:movieId", deleteMovie);
 
