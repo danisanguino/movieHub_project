@@ -5,6 +5,7 @@ import genreRouter from "./routes/genre.router";
 import cors from "cors";
 import fileUpload from "express-fileupload"
 import { urlencoded } from "body-parser";
+import movieInputRouter from "./routes/moviesInputs.router";
 
 
 
@@ -19,6 +20,7 @@ expressApp.use(fileUpload({useTempFiles: true, tempFileDir: "./uploads"}))
 //routes middlewares
 expressApp.use("/user", userRouter);
 expressApp.use("/movie", movieRouter);
+expressApp.use("/inputsmovie", movieInputRouter)
 expressApp.use("/genre", genreRouter)
 
 

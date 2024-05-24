@@ -35,11 +35,10 @@ export const getOneMovie = async (req: Request, res: Response) => {
 }
 
 
-//<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>
-
+//CONTROLER FROM FRONTEND BASICDATA
 export const createThreeInputsMovie = async (req: Request, res: Response) =>{
 
-    const { title, image, score} = req.body;
+    const { title, image, score, sinopsis} = req.body;
     const userId = parseInt(req.params.userId)
 
     try {
@@ -47,12 +46,13 @@ export const createThreeInputsMovie = async (req: Request, res: Response) =>{
             data: {
                 title,
                 image,
-                score,
+                score: parseInt(score),
+                sinopsis,
                 userId
             }
         
         });
-        res.status(200).send(`${title} has been created`);
+        return res.status(200).send(uploadingMovie);
         
     } catch (error) {
         res.status(400).send( "Error to create this fucking movie");
@@ -60,15 +60,9 @@ export const createThreeInputsMovie = async (req: Request, res: Response) =>{
 
 }
 
-//<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>
-
 export const createMovie = async (req: Request, res: Response) => {
     const { title, score, genres, sinopsis } = req.body;
     const image = req.files?.image;
-    //CONSOLE LOG ABAJO
-    console.log(image);
-    console.log(req.files);
-
     const userId = parseInt(req.params.userId)
 
     if (!title || !image ) {
@@ -148,6 +142,7 @@ export const updateMovie = async (req: Request, res: Response) => {
 
                 if(currentMovie && currentMovie.image_publicId) {
                     await deleteImage(currentMovie.image_publicId);
+                    await fs.unlink(image.tempFilePath);
                 }
 
                 const resultImage = await uploadImage(image.tempFilePath);
