@@ -1,4 +1,6 @@
-🎬 Movie Hub Backend Project
+`#Node.js` `#Express.js` `#React` `#typescript` `#Mongoose` `#Prisma` `#MongoDB` `#PostgreSQL`
+
+<h2>🎬 Movie Hub Backend Project</h2>
 
 <img src="https://res.cloudinary.com/dqm1upnhh/image/upload/v1712917488/backend-movieHub-project_adpyef.jpg" />
 
