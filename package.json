@@ -26,7 +26,8 @@
     "cloudinary": "^2.2.0",
     "express": "^4.19.2",
     "express-fileupload": "^1.5.0",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.2.0",
+    "neonctl": "^1.29.4"
   },
   "devDependencies": {
     "@prisma/client": "^5.12.1",

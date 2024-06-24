@@ -142,15 +142,15 @@ export const updateMovie = async (req: Request, res: Response) => {
 
                 if(currentMovie && currentMovie.image_publicId) {
                     await deleteImage(currentMovie.image_publicId);
-                    await fs.unlink(image.tempFilePath);
                 }
-
+                
                 const resultImage = await uploadImage(image.tempFilePath);
                 console.log(resultImage)
                 const movie = await prisma.movies.update({
                     where: { id: movieId },
                     data: { image_publicId: resultImage.imageid, image: resultImage.secure_url }
                 });
+                await fs.unlink(image.tempFilePath);
             } 
         }
         const updatingMovie = await prisma.$transaction(async (prisma) => {
